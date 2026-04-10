@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3ook.com — 免費領取 3 本電子書，附設廣東話朗讀功能</title>
+  <meta name="description" content="無需信用卡，10 秒登記即解鎖 3 本精選電子書，全數附設廣東話朗讀功能。乘車、運動時隨時聆聽。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --black:     #0d0d0d;
+      --black-2:   #141414;
+      --black-3:   #1c1c1c;
+      --teal:      #00d4b4;
+      --teal-dark: #00b89c;
+      --teal-dim:  rgba(0,212,180,0.1);
+      --teal-glow: rgba(0,212,180,0.22);
+      --white:     #ffffff;
+      --off-white: #f5f5f5;
+      --gray-1:    #e0e0e0;
+      --gray-2:    #a0a0a0;
+      --gray-3:    #555555;
+      --gray-4:    #2a2a2a;
+      --gray-5:    #222222;
+    }
+
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: "Inter", 'Noto Sans TC', system-ui, sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-width: 320px;
+    }
+
+    /* ─────────────────────────────
+       HEADER
+    ───────────────────────────── */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.8rem 2rem;
+      border-bottom: 1px solid var(--gray-4);
+      position: sticky;
+      top: 0;
+      background: rgba(13,13,13,0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    .logo svg {
+      height: 28px;
+      width: auto;
+    }
+
+    /* ─────────────────────────────
+       SECTION HELPERS
+    ───────────────────────────── */
+    .section-eyebrow {
+      text-align: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.03em;
+      line-height: 1.3;
+    }
+
+    /* ─────────────────────────────
+       SHARED FORM STYLES
+    ───────────────────────────── */
+    .form-wrap { max-width: 480px; margin: 0 auto; }
+    .form-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .form-input {
+      flex: 1 1 210px;
+      padding: 0.95rem 1.1rem;
+      border: 1.5px solid var(--gray-3);
+      border-radius: 8px;
+      background: var(--black-3);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 0.95rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-glow);
+    }
+    .form-input::placeholder { color: var(--gray-3); }
+    .form-btn {
+      flex: 0 0 auto;
+      padding: 0.95rem 1.5rem;
+      background: var(--teal);
+      color: var(--black);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .form-btn:hover { background: var(--teal-dark); }
+    .form-btn:active { transform: scale(0.98); }
+    .form-privacy {
+      font-size: 0.73rem;
+      color: var(--gray-3);
+      margin-top: 0.7rem;
+      text-align: center;
+    }
+
+    /* ─────────────────────────────
+       1. HERO
+    ───────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 4.5rem;
+      border-bottom: 1px solid var(--gray-4);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse at center top, rgba(0,212,180,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 720px; margin: 0 auto; position: relative; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: 1.4rem;
+      padding: 0.3rem 0.9rem;
+      border: 1px solid rgba(0,212,180,0.3);
+      border-radius: 20px;
+      background: var(--teal-dim);
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; } 50% { opacity:0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(1.9rem, 5.5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.03em;
+      margin-bottom: 1.3rem;
+    }
+    .hero h1 .teal { color: var(--teal); }
+
+    /* Sound wave */
+    .sound-wave {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 36px;
+      margin: 1.4rem auto 1.6rem;
+    }
+    .sound-wave span {
+      display: block;
+      width: 4px;
+      border-radius: 2px;
+      background: var(--teal);
+      opacity: 0.7;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    .sound-wave span:nth-child(1)  { height: 8px;  animation-delay: 0s; }
+    .sound-wave span:nth-child(2)  { height: 18px; animation-delay: 0.1s; }
+    .sound-wave span:nth-child(3)  { height: 28px; animation-delay: 0.2s; }
+    .sound-wave span:nth-child(4)  { height: 34px; animation-delay: 0.3s; }
+    .sound-wave span:nth-child(5)  { height: 28px; animation-delay: 0.4s; }
+    .sound-wave span:nth-child(6)  { height: 20px; animation-delay: 0.5s; }
+    .sound-wave span:nth-child(7)  { height: 34px; animation-delay: 0.35s; }
+    .sound-wave span:nth-child(8)  { height: 26px; animation-delay: 0.25s; }
+    .sound-wave span:nth-child(9)  { height: 16px; animation-delay: 0.15s; }
+    .sound-wave span:nth-child(10) { height: 28px; animation-delay: 0.45s; }
+    .sound-wave span:nth-child(11) { height: 34px; animation-delay: 0.55s; }
+    .sound-wave span:nth-child(12) { height: 22px; animation-delay: 0.05s; }
+    .sound-wave span:nth-child(13) { height: 12px; animation-delay: 0.3s; }
+    .sound-wave span:nth-child(14) { height: 28px; animation-delay: 0.2s; }
+    .sound-wave span:nth-child(15) { height: 18px; animation-delay: 0.4s; }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+      50%       { transform: scaleY(1);   opacity: 0.9; }
+    }
+
+    .hero h2 {
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      font-weight: 300;
+      color: var(--white);
+      max-width: 580px;
+      margin: 0 auto 2.4rem;
+      line-height: 1.85;
+    }
+
+    /* Trust badges */
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .trust-badge {
+      font-size: 0.92rem;
+      color: var(--gray-2);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .trust-badge .check { color: var(--teal); }
+
+    /* ─────────────────────────────
+       2. VALUE PROPOSITION
+    ───────────────────────────── */
+    .value-section {
+      background: var(--black-2);
+      border-bottom: 1px solid var(--gray-4);
+      padding: 5rem 2rem;
+    }
+    .value-inner { max-width: 820px; margin: 0 auto; }
+    .value-section .section-title { margin-bottom: 3rem; }
+
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.4rem;
+    }
+    .value-card {
+      background: var(--black-3);
+      border: 1px solid var(--gray-4);
+      border-radius: 14px;
+      padding: 2rem 1.6rem;
+      text-align: center;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .value-card:hover {
+      border-color: rgba(0,212,180,0.35);
+      box-shadow: 0 0 24px rgba(0,212,180,0.07);
+    }
+    .value-icon {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .value-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--white);
+    }
+    .value-desc {
+      font-size: 0.85rem;
+      color: var(--gray-2);
+      line-height: 1.75;
+    }
+
+    /* ─────────────────────────────
+       3. WHAT YOU GET
+    ───────────────────────────── */
+    .books-section {
+      padding: 5rem 2rem;
+      border-bottom: 1px solid var(--gray-4);
+    }
+    .books-inner { max-width: 820px; margin: 0 auto; }
+    .books-section .section-title { margin-bottom: 0.5rem; }
+    .books-subtitle {
+      text-align: center;
+      color: var(--gray-2);
+      font-size: 0.9rem;
+      margin-bottom: 3rem;
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.4rem;
+    }
+    .book-card {
+      background: var(--black-2);
+      border: 1px solid var(--gray-4);
+      border-radius: 14px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .book-card:hover {
+      border-color: rgba(0,212,180,0.3);
+      transform: translateY(-3px);
+    }
+    /* Book cover image */
+    .book-cover {
+      width: 110px;
+      height: auto;
+      border-radius: 6px;
+      margin: 0 auto 1.1rem;
+      display: block;
+      box-shadow: 6px 6px 20px rgba(0,0,0,0.6);
+      object-fit: cover;
+    }
+
+    .book-num {
+      display: inline-block;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: var(--black);
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 24px;
+      text-align: center;
+      margin-bottom: 0.7rem;
+    }
+    .book-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .book-author {
+      font-size: 0.8rem;
+      color: var(--teal);
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+    .book-tag {
+      display: inline-block;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--teal-dim);
+      border: 1px solid rgba(0,212,180,0.2);
+      color: var(--teal);
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      margin-bottom: 0.6rem;
+    }
+    .book-info { width: 100%; }
+    .book-desc {
+      font-size: 0.82rem;
+      color: var(--gray-2);
+      line-height: 1.7;
+    }
+    .free-label {
+      display: inline-block;
+      margin-top: 0.8rem;
+      font-size: 0.72rem;
+      color: var(--teal);
+      border: 1px dashed rgba(0,212,180,0.4);
+      border-radius: 4px;
+      padding: 0.2rem 0.6rem;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    a.free-label:hover {
+      background: var(--teal);
+      color: var(--black);
+      border-style: solid;
+    }
+
+    /* ─────────────────────────────
+       5. INSTAGRAM REELS
+    ───────────────────────────── */
+    .reels-section {
+      background: var(--black-2);
+      border-top: 1px solid var(--gray-4);
+      border-bottom: 1px solid var(--gray-4);
+      padding: 3rem 2rem 2.5rem;
+    }
+    .reels-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .reels-inner .section-title { margin-bottom: 0.4rem; }
+    .reels-sub {
+      text-align: center;
+      color: var(--gray-2);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .reels-handle {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .reels-handle:hover { text-decoration: underline; }
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .reel-wrap {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 9 / 16;
+      background: #000;
+    }
+    .reel-wrap iframe {
+      position: absolute;
+      top: -56px;
+      left: 0;
+      width: 100%;
+      height: calc(100% + 56px);
+      border: none;
+      display: block;
+    }
+    /* Black overlay masks the Instagram footer (View more, icons, comment bar) */
+    .reel-wrap::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 32%;
+      background: var(--black-2);
+      z-index: 2;
+      pointer-events: none;
+      border-radius: 0 0 12px 12px;
+    }
+    @media (max-width: 700px) {
+      .reels-grid { grid-template-columns: 1fr; gap: 0; }
+      .reel-wrap:not(:first-child) { display: none; }
+      .reel-wrap { aspect-ratio: unset; height: 68vw; border-radius: 10px; }
+      .reel-wrap iframe { top: -56px; height: calc(100% + 56px); }
+      .reel-wrap::after { display: none; }
+    }
+
+    /* ─────────────────────────────
+       4. TESTIMONIALS
+    ───────────────────────────── */
+    .proof-section {
+      background: var(--black-2);
+      border-top: 1px solid var(--gray-4);
+      border-bottom: 1px solid var(--gray-4);
+      padding: 5rem 2rem;
+    }
+    .proof-inner { max-width: 740px; margin: 0 auto; }
+    .proof-section .section-title { margin-bottom: 2.8rem; }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.3rem;
+    }
+    .proof-card {
+      background: var(--black-3);
+      border: 1px solid var(--gray-4);
+      border-radius: 14px;
+      padding: 1.6rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .proof-card:hover { border-color: rgba(0,212,180,0.25); }
+    .proof-stars { color: var(--teal); font-size: 0.85rem; margin-bottom: 0.7rem; letter-spacing: 0.06em; }
+    .proof-text {
+      font-size: 0.9rem;
+      color: var(--gray-1);
+      line-height: 1.8;
+      margin-bottom: 0.9rem;
+    }
+    .proof-author { font-size: 0.76rem; color: var(--gray-3); }
+    .proof-author strong { color: var(--gray-2); font-weight: 500; }
+
+
+    /* ─────────────────────────────
+       5. FINAL CTA
+    ───────────────────────────── */
+    .cta-section {
+      padding: 5.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse at center bottom, rgba(0,212,180,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-inner { max-width: 560px; margin: 0 auto; position: relative; }
+    .cta-section .section-title { margin-bottom: 0.5rem; }
+    .cta-urgency {
+      color: var(--teal);
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      letter-spacing: 0.04em;
+    }
+    .cta-disclaimer {
+      font-size: 0.75rem;
+      color: var(--gray-3);
+      margin-top: 1.2rem;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────
+       FOOTER
+    ───────────────────────────── */
+    footer {
+      border-top: 1px solid var(--gray-4);
+      text-align: center;
+      padding: 1.6rem 2rem;
+      font-size: 0.72rem;
+      color: var(--gray-3);
+    }
+    footer a { color: var(--gray-3); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--teal); }
+
+    /* ─────────────────────────────
+       MOBILE
+    ───────────────────────────── */
+    @media (max-width: 560px) {
+      /* Header */
+      .site-header { padding: 1.2rem 1.5rem; }
+      .logo svg { height: 22px; }
+
+      /* Hero */
+      .hero { padding: 2.5rem 1.25rem 2.5rem; }
+      .hero-eyebrow { font-size: 0.62rem; }
+      .hero-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .hero-sub { font-size: 0.9rem; }
+
+      /* Form */
+      .form-wrap { max-width: 100%; }
+      .form-row { flex-direction: column; gap: 0.5rem; }
+      .form-input {
+        flex: none;
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.85rem 1rem;
+      }
+      .form-btn {
+        width: 100%;
+        text-align: center;
+        font-size: 0.95rem;
+        padding: 0.85rem 1rem;
+      }
+
+      /* Trust badges — inline row on mobile */
+      .trust-badges { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 0.5rem 1rem; }
+      .trust-badge { font-size: 0.72rem; }
+
+      /* Value section */
+      .value-section { padding: 3rem 1.25rem; }
+      .value-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .value-card { padding: 1.25rem; }
+
+      /* Books section */
+      .books-section { padding: 3rem 1.25rem; }
+      .books-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .book-card { display: flex; flex-direction: row; gap: 1rem; align-items: flex-start; padding: 1rem; text-align: left; }
+      .book-cover { width: 72px; flex-shrink: 0; margin: 0; border-radius: 5px; }
+      .book-info { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; align-content: flex-start; column-gap: 0.35rem; row-gap: 0.1rem; }
+      .book-num { width: 18px; height: 18px; font-size: 0.62rem; line-height: 18px; flex-shrink: 0; margin-bottom: 0; }
+      .book-title { font-size: 0.88rem; white-space: normal; margin-bottom: 0; flex: 1; min-width: 0; }
+      .book-author { font-size: 0.75rem; flex-basis: 100%; margin-bottom: 0.2rem; }
+      .book-desc { flex-basis: 100%; }
+      .free-label { flex-basis: 100%; }
+      .book-desc { font-size: 0.78rem; line-height: 1.55; }
+      .free-label { font-size: 0.68rem; margin-top: 0.5rem; }
+      .book-badge { font-size: 0.65rem; padding: 0.2rem 0.5rem; }
+
+      /* Proof / testimonials */
+      .proof-section { padding: 3rem 1.25rem; }
+      .proof-grid { grid-template-columns: 1fr; }
+      .proof-card { padding: 1.25rem; }
+      .proof-quote { font-size: 0.88rem; }
+
+      /* Reels */
+      .reels-section { padding: 2.5rem 1.25rem 2rem; }
+      .reels-sub { font-size: 0.82rem; }
+      .reels-grid { gap: 4px; }
+
+      /* CTA */
+      .cta-section { padding: 3rem 1.25rem; }
+      .section-title { font-size: clamp(1.3rem, 5vw, 1.8rem); }
+
+      /* General section titles */
+      .value-section .section-title,
+      .proof-section .section-title,
+      .reels-section .section-title,
+      .cta-section .section-title { font-size: clamp(1.25rem, 5vw, 1.7rem); }
+      /* Books title — long string, keep on one line */
+      .books-section .section-title { font-size: clamp(0.82rem, 3.8vw, 1rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    }
+
+    @media (max-width: 400px) {
+      .reels-grid { grid-template-columns: 1fr; }
+    }
+    /* ─────────────────────────────
+       SUCCESS STATE
+    ───────────────────────────── */
+    .success-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13,13,13,0.96);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      animation: fadeIn 0.35s ease;
+    }
+    .success-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.5);
+      font-size: 1.1rem;
+      line-height: 1;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .success-close:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.4);
+    }
+    .success-overlay.visible {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .success-box {
+      background: var(--black-2);
+      border: 1px solid rgba(0,212,180,0.35);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(0,212,180,0.1);
+    }
+    .success-icon {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--teal-dim);
+      border: 2px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 2rem;
+      animation: popIn 0.4s 0.1s both cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .success-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--white);
+    }
+    .success-title .teal { color: var(--teal); }
+    .success-msg {
+      font-size: 0.95rem;
+      color: var(--gray-2);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+    }
+    .success-steps {
+      background: var(--black-3);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+      margin-bottom: 1.8rem;
+    }
+    .success-steps p {
+      font-size: 0.82rem;
+      color: var(--gray-2);
+      line-height: 1.75;
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+    }
+    .success-steps p + p { margin-top: 0.5rem; }
+    .success-steps .step-num {
+      color: var(--teal);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+    .success-btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--teal);
+      color: var(--black);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .success-btn:hover { background: var(--teal-dark); }
+  </style>
+</head>
+<body>
+
+  <!-- ── SUCCESS OVERLAY ── -->
+  <div class="success-overlay" id="successOverlay">
+    <button class="success-close" id="successClose" aria-label="關閉">✕</button>
+    <div class="success-box">
+      <div class="success-icon">🎧</div>
+      <h2 class="success-title">登記<span class="teal">成功</span>！</h2>
+      <p class="success-msg">
+        請檢查您的 Email 收件箱，三本電子書正等待您來領取。<br />
+        已為您的登記電郵解鎖廣東話朗讀功能。
+      </p>
+      <div class="success-steps">
+        <p><span class="step-num">①</span> 請在收件箱查閱來自 3ook.com 的電郵</p>
+        <p><span class="step-num">②</span> 如未見到，請檢查垃圾郵件資料夾</p>
+        <p><span class="step-num">③</span> 點擊電郵內的連結，登入您的個人書架</p>
+        <p><span class="step-num">④</span> 點選想要領取的書籍，即可開始聆聽</p>
+      </div>
+      <a class="success-btn" href="https://3ook.com/shelf?utm_source=threads&utm_medium=affiliate&utm_campaign=free-ebook-apr2026&utm_content=success-cta">立即前往書架 →</a>
+    </div>
+  </div>
+
+  <!-- ── HEADER ── -->
+  <header class="site-header">
+    <a class="logo" href="https://3ook.com?utm_source=threads&utm_medium=affiliate&utm_campaign=free-ebook-apr2026&utm_content=logo" aria-label="3ook.com">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 78 12" height="auto"><g><path fill="#50e3c2" d="M72 5a.25.25 0 0 1 .177.073l1.47 1.78a.5.5 0 0 0 .706 0l1.5-1.707A.5.5 0 0 1 76.208 5H77.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V8.104a.25.25 0 0 0-.427-.177l-1.22 1.427A.5.5 0 0 1 74 9.5v.002h-1v-.905l-.573-.67a.25.25 0 0 0-.427.177v2.039a.5.5 0 0 1-.147.353l-1.426 1.427c-.052.051-.107.081-.17.08L70.22 12h-.97a.25.25 0 0 1-.25-.25V11h1V7.207a.5.5 0 0 1 .147-.353L71 5.947V5zM9.5 2a.5.5 0 0 1 .5.5v2.293a.5.5 0 0 1-.146.353l-.5.5a.5.5 0 0 0 0 .708l.5.5a.5.5 0 0 1 .146.353v2.586a.5.5 0 0 1-.146.354l-1.708 1.707a.5.5 0 0 1-.353.146H1.5a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .49.4l.02.2a.5.5 0 0 0 .49.4h4a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 .5-.5V2zM19.5 3a.5.5 0 0 1 .5.5V5h-5v5h5V5h1.5a.5.5 0 0 1 .5.5v4.086a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H15.5a.5.5 0 0 1-.5-.5V10h-1.5a.5.5 0 0 1-.5-.5V5.414a1 1 0 0 1 .293-.707l1.414-1.414A1 1 0 0 1 15.414 3zM31.5 3a.5.5 0 0 1 .5.5V5h-5v5h5V5h1.5a.5.5 0 0 1 .5.5v4.086a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H27.5a.5.5 0 0 1-.5-.5V10h-1.5a.5.5 0 0 1-.5-.5V5.414a1 1 0 0 1 .293-.707l1.414-1.414A1 1 0 0 1 27.414 3zM38.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 0 .5.5h4.293a.5.5 0 0 1 .354.146l1.706 1.708a.5.5 0 0 1 .147.353V11.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zM50 10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zM58.397 10a.25.25 0 0 1 .176.427l-1.28 1.28a1 1 0 0 1-.707.293H54.5a.5.5 0 0 1-.5-.5V10zM65.5 5a.5.5 0 0 1 .5.5V7h-3.5v3H66V7h1.5a.5.5 0 0 1 .5.5v2.086a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H63a.5.5 0 0 1-.5-.5V10H61a.5.5 0 0 1-.5-.5V7.414a1 1 0 0 1 .293-.707l1.414-1.414A1 1 0 0 1 62.914 5zM58 5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4v3h-1.5a.5.5 0 0 1-.5-.499V7.5a.5.5 0 0 1 .5-.5H54V5.5a.5.5 0 0 1 .5-.5z"></path><path fill="#50e3c2" d="M45.5 2a.5.5 0 0 1 .5.501V5a.5.5 0 0 1-.147.354l-1 1a.49.49 0 0 1-.36.146H43.5v-1h.5V3.501a.5.5 0 0 1 .147-.354l.353-.353V2zM7.5 0a.5.5 0 0 1 .5.5V2H1.5a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5z"></path><path fill="#f9f9f9" d="M8.5 2a.5.5 0 0 1 .5.5v2.293a.5.5 0 0 1-.146.353l-.5.5a.5.5 0 0 0 0 .708l.5.5A.5.5 0 0 1 9 7.207v2.586a.5.5 0 0 1-.146.354l-1.708 1.707a.5.5 0 0 1-.353.146H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 9h1a.5.5 0 0 1 .49.4l.02.2a.5.5 0 0 0 .49.4h4a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h4a.5.5 0 0 0 .5-.5V2zm10 1a.5.5 0 0 1 .5.5V5h-5v5h5V5h1.5a.5.5 0 0 1 .5.5v4.086a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H14.5a.5.5 0 0 1-.5-.5V10h-1.5a.5.5 0 0 1-.5-.5V5.414a1 1 0 0 1 .293-.707l1.414-1.414A1 1 0 0 1 14.414 3zm12 0a.5.5 0 0 1 .5.5V5h-5v5h5V5h1.5a.5.5 0 0 1 .5.5v4.086a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H26.5a.5.5 0 0 1-.5-.5V10h-1.5a.5.5 0 0 1-.5-.5V5.414a1 1 0 0 1 .293-.707l1.414-1.414A1 1 0 0 1 26.414 3zm7-3a.5.5 0 0 1 .5.5v6a.5.5 0 0 0 .5.5h4.293a.5.5 0 0 1 .354.146l1.706 1.708a.5.5 0 0 1 .147.353V11.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zM49 10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm8.397 0a.25.25 0 0 1 .176.427l-1.28 1.28a1 1 0 0 1-.707.293H53.5a.5.5 0 0 1-.5-.5V10zM64.5 5a.5.5 0 0 1 .5.5V7h-3.5v3H65V7h1.5a.5.5 0 0 1 .5.5v2.086a1 1 0 0 1-.293.707l-1.414 1.414a1 1 0 0 1-.707.293H62a.5.5 0 0 1-.5-.5V10H60a.5.5 0 0 1-.5-.5V7.414a1 1 0 0 1 .293-.707l1.414-1.414A1 1 0 0 1 61.914 5zm12 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V8.104a.25.25 0 0 0-.427-.177l-1.22 1.427a.5.5 0 0 1-.706 0l-1.22-1.427a.25.25 0 0 0-.427.177v2.039a.5.5 0 0 1-.147.353l-1.426 1.427a.25.25 0 0 1-.427-.177V7.207a.5.5 0 0 1 .147-.353l1.676-1.78a.25.25 0 0 1 .354 0l1.47 1.78a.5.5 0 0 0 .706 0l1.5-1.708A.5.5 0 0 1 75.208 5zM57 5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4v3h-1.5a.5.5 0 0 1-.5-.499V7.5a.5.5 0 0 1 .5-.5H53V5.5a.5.5 0 0 1 .5-.5zM44.147 2.147a.5.5 0 0 1 .853.354V5a.5.5 0 0 1-.147.354l-1 1A.5.5 0 0 1 43 6V3.501a.5.5 0 0 1 .147-.354zM6.5 0a.5.5 0 0 1 .5.5V2H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 0z"></path></g></svg>
+    </a>
+  </header>
+
+
+  <!-- ── 1. HERO ── -->
+  <section class="hero">
+    <div class="hero-inner">
+
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        限時免費福利
+      </div>
+
+      <h1>
+        免費領取 3 本電子書<br />
+        <span class="teal">附設廣東話朗讀功能 🎧</span>
+      </h1>
+
+      <div class="sound-wave" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <h2>
+        沒有時間靜下來閱讀？改用「聽」的方式——乘車、運動、做家務時隨時聆聽，
+        零成本持續增值自己。只需登記 Email，即可解鎖 3 本精選電子書。
+      </h2>
+
+      <div class="form-wrap">
+        <form class="form-row" action="#" method="POST">
+          <input class="form-input" type="email" name="email" placeholder="輸入你的 Email 地址" required />
+          <button class="form-btn" type="submit">立即領取 🎧</button>
+        </form>
+        <div class="trust-badges">
+          <span class="trust-badge"><span class="check">✅</span> 無需信用卡</span>
+          <span class="trust-badge"><span class="check">✅</span> 零隱藏收費</span>
+          <span class="trust-badge"><span class="check">✅</span> 10 秒極速登記</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── 2. VALUE PROPOSITION ── -->
+  <section class="value-section">
+    <div class="value-inner">
+      <p class="section-eyebrow">全港唯一支援廣東話朗讀的電子書平台</p>
+      <h2 class="section-title">為何選擇 3ook.com 聽書？</h2>
+
+      <div class="value-grid">
+        <div class="value-card">
+          <span class="value-icon">👂</span>
+          <p class="value-title">廣東話自然朗讀</p>
+          <p class="value-desc">告別生硬的機械語音，媲美真人演繹，自然流暢，易於吸收。粵語、國語隨時切換。</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">🏃‍♂️</span>
+          <p class="value-title">善用碎片時間</p>
+          <p class="value-desc">每日乘車聆聽 15 分鐘，一週便可輕鬆完成一本書。通勤、運動、家務時間均可充分利用。</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">📱</span>
+          <p class="value-title">閱讀、聆聽無縫切換</p>
+          <p class="value-desc">電子書與有聲書二合為一。靜下來便閱讀，沒有空閒便聆聽，在兩種模式之間自由切換。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 3. WHAT YOU GET ── -->
+  <section class="books-section">
+    <div class="books-inner">
+      <p class="section-eyebrow">限時免費福利</p>
+      <h2 class="section-title">成功登記，立即解鎖以下 3 本精選好書</h2>
+      <p class="books-subtitle">完整電子版 · 廣東話朗讀 · 即時可聽</p>
+
+      <div class="books-grid">
+
+        <div class="book-card">
+          <img class="book-cover" src="https://static.like.co/thumbnail/?url=https%3A%2F%2Fgateway.irys.xyz%2FwcyzVNnRQRjhOMxCYx-_ngzObA8zYo-wmr4Otia62DI&width=600" alt="天工開物．栩栩如真" />
+          <div class="book-info">
+            <span class="book-num">1</span>
+            <p class="book-title">《天工開物．栩栩如真》</p>
+            <p class="book-author">董啟章</p>
+            <p class="book-desc">香港文學代表作。一部家族史與虛構人物交織的長篇小說，穿越現實與想像，探索失去、記憶與創作的本質。</p>
+            <a href="https://3ook.com/store/0x308b5afeb3b04366e9398bc13c104fad1b7195eb?utm_source=threads&utm_medium=affiliate&utm_campaign=free-ebook-apr2026&utm_content=book-tiangong" target="_blank" class="free-label">🎧 免費解鎖</a>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <img class="book-cover" src="https://static.like.co/thumbnail/?url=https%3A%2F%2Fgateway.irys.xyz%2F8NCA5AdGhbrAv9Que3Q1yLBfxz4o16Fxh_D-yLN6Kt0&width=600" alt="黃昏未晚：後九七香港電影" />
+          <div class="book-info">
+            <span class="book-num">2</span>
+            <p class="book-title">《黃昏未晚：後九七香港電影》</p>
+            <p class="book-author">彭麗君</p>
+            <p class="book-desc">後九七香港電影深度解讀。在衰敗與蕭條中，看見那份令人動容的柔韌與生命力。究竟是黃昏遲暮，還是浴火重生？</p>
+            <a href="https://3ook.com/store/0x08d5b4aede895d3de1747132319417e6b01d4d80?utm_source=threads&utm_medium=affiliate&utm_campaign=free-ebook-apr2026&utm_content=book-dusk" target="_blank" class="free-label">🎧 免費解鎖</a>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <img class="book-cover" src="https://static.like.co/thumbnail/?url=https%3A%2F%2Fgateway.irys.xyz%2Fj1Fk2X3V1va8uEplGFkMXDEVUzeAzz8ZXDXPFpfEMnM&width=600" alt="野性的邊界" />
+          <div class="book-info">
+            <span class="book-num">3</span>
+            <p class="book-title">《野性的邊界》</p>
+            <p class="book-author">喬靖夫</p>
+            <p class="book-desc">《吸血鬼獵人日誌》作者喬靖夫親筆外傳短篇。戰火中，母猩猩帶領幼虎重返蠻荒——「人是很容易變成野獸的，只要給自己足夠的理由⋯⋯」</p>
+            <a href="https://3ook.com/store/0xb8ada6b0ac65c158df37f066bda00e005cd44b1e?utm_source=threads&utm_medium=affiliate&utm_campaign=free-ebook-apr2026&utm_content=book-wild" target="_blank" class="free-label">🎧 免費解鎖</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 4. TESTIMONIALS ── -->
+  <section class="proof-section">
+    <div class="proof-inner">
+      <p class="section-eyebrow">真實用戶評價</p>
+      <h2 class="section-title">聽過的用戶都大力推薦！</h2>
+
+      <div class="proof-grid">
+        <div class="proof-card">
+          <p class="proof-stars">★★★★★</p>
+          <p class="proof-text">「平時下班後十分疲憊，實在沒有精神閱讀文字。現在每天乘地鐵時聆聽 3ook.com，不知不覺便完成了好幾本書，感覺時間沒有白白浪費。」</p>
+          <p class="proof-author"><strong>陳先生</strong>，IT 從業員</p>
+        </div>
+        <div class="proof-card">
+          <p class="proof-stars">★★★★★</p>
+          <p class="proof-text">「3ook.com 的廣東話朗讀十分自然，完全不像電腦合成的聲音。現在連做家務時也會一邊聆聽，生活充實了許多。」</p>
+          <p class="proof-author"><strong>李小姐</strong>，全職媽媽</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── 5. INSTAGRAM REELS ── -->
+  <section class="reels-section">
+    <div class="reels-inner">
+      <h2 class="section-title">讀者分享</h2>
+      <p class="reels-sub">追蹤 <a href="https://www.instagram.com/3ookcom/" target="_blank" class="reels-handle">@3ookcom</a> 獲取更多廣東話有聲書內容</p>
+      <div class="reels-grid">
+        <div class="reel-wrap">
+          <iframe src="https://www.instagram.com/reel/DV_HlUJkwmm/embed/" allowfullscreen scrolling="no" allowtransparency></iframe>
+        </div>
+        <div class="reel-wrap">
+          <iframe src="https://www.instagram.com/reel/DVtG9MOkwcm/embed/" allowfullscreen scrolling="no" allowtransparency></iframe>
+        </div>
+        <div class="reel-wrap">
+          <iframe src="https://www.instagram.com/reel/DQUJ3FajQqM/embed/" allowfullscreen scrolling="no" allowtransparency></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. FINAL CTA ── -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <p class="section-eyebrow">立即開始</p>
+      <h2 class="section-title">立即免費領取 3 本電子書，<br>附設廣東話朗讀功能</h2>
+      <p class="cta-urgency">⚡ 名額有限，送完即止！</p>
+
+      <div class="form-wrap">
+        <form class="form-row" action="#" method="POST" style="justify-content:center;">
+          <input class="form-input" type="email" name="email" placeholder="輸入你的 Email 地址" required />
+          <button class="form-btn" type="submit">立即領取 🎧</button>
+        </form>
+        <div class="trust-badges" style="margin-top:0.9rem;">
+          <span class="trust-badge"><span class="check">✅</span> 無需信用卡</span>
+          <span class="trust-badge"><span class="check">✅</span> 零隱藏收費</span>
+          <span class="trust-badge"><span class="check">✅</span> 10 秒極速登記</span>
+        </div>
+        <p class="cta-disclaimer">
+          我們尊重你的私隱，絕不會發送垃圾郵件。你可以隨時取消訂閱。
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>© 2026 3ook.com &nbsp;·&nbsp; 可讀・可聽・可擁有 &nbsp;·&nbsp;
+      <a href="#">私隱政策</a> &nbsp;·&nbsp; <a href="#">取消訂閱</a>
+    </p>
+  </footer>
+
+  <!-- ─── Intercom ──────────────────────────────────────────────────────── -->
+  <!-- Intercom is NOT loaded on page load. It loads only when the user submits  -->
+  <!-- their email, so window.intercomSettings already has the email when the    -->
+  <!-- script boots — this is the reliable way to create a contact per the docs. -->
+  <script>
+    function getUTMParam(key) {
+      return new URLSearchParams(window.location.search).get(key) || 'direct';
+    }
+
+    function loadIntercom(email) {
+      // Set settings BEFORE the script loads — Intercom reads this on boot
+      window.intercomSettings = {
+        api_base:     'https://api-iam.intercom.io',
+        app_id:       'eupcse57',
+        email:        email,
+        lead_source:  'affiliate-lp',
+        utm_source:   getUTMParam('utm_source'),
+        utm_medium:   'landingpage',
+        utm_campaign: 'freebook',
+        lead_page:    window.location.pathname
+      };
+
+      // Dynamically inject and run the Intercom loader
+      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/eupcse57';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+    }
+
+    document.querySelectorAll('form').forEach(function(form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = form.querySelector('input[type="email"]').value.trim();
+        if (!email) return;
+
+        // Load Intercom with the email already set — creates the contact on boot
+        loadIntercom(email);
+
+        showSuccess();
+      });
+    });
+
+    function showSuccess() {
+      var overlay = document.getElementById('successOverlay');
+      overlay.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('successClose').addEventListener('click', function() {
+      var overlay = document.getElementById('successOverlay');
+      overlay.classList.remove('visible');
+      document.body.style.overflow = '';
+    });
+  </script>
+
+</body>
+</html>
