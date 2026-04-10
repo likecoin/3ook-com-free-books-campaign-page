@@ -1021,6 +1021,12 @@
       return new URLSearchParams(window.location.search).get(key) || 'direct';
     }
 
+    function track(eventName, params) {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', eventName, params || {});
+      }
+    }
+
     function loadIntercom(email) {
       // Set settings BEFORE the script loads — Intercom reads this on boot
       window.intercomSettings = {
@@ -1039,16 +1045,55 @@
     }
 
     document.querySelectorAll('form').forEach(function(form) {
+      form.querySelector('input[type="email"]').addEventListener('focus', function() {
+        track('form_start');
+      }, { once: true });
+
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         var email = form.querySelector('input[type="email"]').value.trim();
         if (!email) return;
 
+        track('generate_lead', { currency: 'HKD', value: 0 });
+
         // Load Intercom with the email already set — creates the contact on boot
         loadIntercom(email);
 
+        // Diagnostic: if Intercom's iframe never renders, the lead silently
+        // dropped (ad blocker / Brave Shields / etc). Compare this count
+        // against generate_lead in GA4 to measure conversion loss.
+        setTimeout(function() {
+          if (!document.querySelector('iframe[name^="intercom-"]')) {
+            track('lead_capture_failed');
+          }
+        }, 5000);
+
         showSuccess();
       });
+    });
+
+    var booksObserver = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        track('view_item_list', { item_list_name: 'free_books' });
+        booksObserver.disconnect();
+      }
+    });
+    booksObserver.observe(document.querySelector('.books-section'));
+
+    document.querySelectorAll('.book-card a.free-label').forEach(function(link, index) {
+      var item = {
+        item_id:        link.href,
+        item_name:      link.closest('.book-card').querySelector('.book-title').textContent.trim(),
+        item_list_name: 'free_books',
+        index:          index + 1
+      };
+      link.addEventListener('click', function() {
+        track('select_item', { item_list_name: 'free_books', items: [item] });
+      });
+    });
+
+    document.querySelector('.success-btn').addEventListener('click', function() {
+      track('success_cta_click');
     });
 
     function showSuccess() {
