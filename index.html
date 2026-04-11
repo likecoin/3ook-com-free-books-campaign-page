@@ -954,10 +954,18 @@
       <a href="#">私隱政策</a> &nbsp;·&nbsp; <a href="#">取消訂閱</a></p>
   </footer>
 
-  <!-- Intercom is NOT loaded on page load. It loads only when the user submits
-       their email, so window.intercomSettings already has the email when the
-       script boots — this is the reliable way to create a contact per the docs. -->
+  <!-- Intercom: boot hidden on page load, then update with email on submit -->
   <script>
+    // ── Step 1: Boot Intercom immediately on page load (hidden) ──────────────
+    // Booting early means the script is fully loaded and the session is
+    // established BEFORE the user submits. On submit we just call update().
+    window.intercomSettings = {
+      api_base:              'https://api-iam.intercom.io',
+      app_id:                'eupcse57',
+      hide_default_launcher: true,
+    };
+    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/eupcse57';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
+
     function getUTMParam(key) {
       return new URLSearchParams(window.location.search).get(key) || 'direct';
     }
@@ -966,20 +974,6 @@
       if (typeof window.gtag === 'function') {
         window.gtag('event', eventName, params || {});
       }
-    }
-
-    function loadIntercom(email) {
-      window.intercomSettings = {
-        api_base:     'https://api-iam.intercom.io',
-        app_id:       'eupcse57',
-        email:        email,
-        lead_source:  'affiliate-lp',
-        utm_source:   getUTMParam('utm_source'),
-        utm_medium:   'landingpage',
-        utm_campaign: 'freebook',
-        lead_page:    window.location.pathname
-      };
-      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/eupcse57';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
     }
 
     document.querySelectorAll('form').forEach(function(form) {
@@ -993,16 +987,23 @@
         if (!email) return;
 
         track('generate_lead', { currency: 'HKD', value: 0 });
-        loadIntercom(email);
-        setTimeout(function() { window.Intercom('trackEvent', 'free-book-signup'); }, 1500);
 
-        setTimeout(function() {
-          if (!document.querySelector('iframe[name^="intercom-"]')) {
-            track('lead_capture_failed');
-          }
-        }, 5000);
+        // ── Step 2: Update the already-booted session with the email ─────────
+        // Intercom is already loaded — update() fires synchronously against the
+        // live session and creates/identifies the contact immediately.
+        window.Intercom('update', {
+          email:        email,
+          lead_source:  'affiliate-lp',
+          utm_source:   getUTMParam('utm_source'),
+          utm_medium:   getUTMParam('utm_medium'),
+          utm_campaign: getUTMParam('utm_campaign') !== 'direct' ? getUTMParam('utm_campaign') : 'freebook',
+          lead_page:    window.location.pathname,
+        });
 
-        showSuccess();
+        // ── Step 3: Show success only after a short tick so Intercom's XHR
+        //    has been queued. 300 ms is enough — no redirect happens here so
+        //    we don't need a long delay.
+        setTimeout(showSuccess, 300);
       });
     });
 
