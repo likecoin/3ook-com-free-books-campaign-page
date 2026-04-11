@@ -12,7 +12,7 @@ export default async (req) => {
     return new Response('bad json', { status: 400 });
   }
 
-  const { email, hp, utm_source, utm_campaign, lead_page } = body;
+  const { email, hp } = body;
 
   // Silently 200 so bots can't tell they were filtered.
   if (hp) return new Response('ok');
@@ -56,9 +56,9 @@ export default async (req) => {
       created_at: Math.floor(Date.now() / 1000),
       email,
       metadata: {
-        utm_source,
-        utm_campaign,
-        lead_page,
+        utm_source:   body.utm_source,
+        utm_campaign: body.utm_campaign,
+        lead_page:    body.lead_page,
       },
     }),
   });
