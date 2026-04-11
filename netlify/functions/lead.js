@@ -48,13 +48,20 @@ export default async (req) => {
     return new Response('upstream_error', { status: 502 });
   }
 
+  // Intercom Events API doesn't resolve leads by email reliably — key off the contact id.
+  const contact = await contactRes.json();
+  if (!contact?.id) {
+    console.error('intercom contact missing id', contact);
+    return new Response('upstream_error', { status: 502 });
+  }
+
   const eventRes = await fetch('https://api.intercom.io/events', {
     method: 'POST',
     headers,
     body: JSON.stringify({
       event_name: 'freebook_requested',
       created_at: Math.floor(Date.now() / 1000),
-      email,
+      id: contact.id,
       metadata: {
         utm_source:   body.utm_source,
         utm_campaign: body.utm_campaign,
