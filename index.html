@@ -809,6 +809,7 @@
       <div class="form-wrap">
         <form class="form-row" action="#" method="POST">
           <input class="form-input" type="email" name="email" placeholder="輸入你的 Email 地址" required />
+          <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
           <button class="form-btn" type="submit">立即領取 🎧</button>
         </form>
         <div class="trust-badges">
@@ -934,6 +935,7 @@
       <div class="form-wrap">
         <form class="form-row" action="#" method="POST" style="justify-content:center;">
           <input class="form-input" type="email" name="email" placeholder="輸入你的 Email 地址" required />
+          <input type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
           <button class="form-btn" type="submit">立即領取 🎧</button>
         </form>
         <div class="trust-badges" style="margin-top:0.9rem;">
@@ -954,18 +956,7 @@
       <a href="#">私隱政策</a> &nbsp;·&nbsp; <a href="#">取消訂閱</a></p>
   </footer>
 
-  <!-- Intercom: boot hidden on page load, then update with email on submit -->
   <script>
-    // ── Step 1: Boot Intercom immediately on page load (hidden) ──────────────
-    // Booting early means the script is fully loaded and the session is
-    // established BEFORE the user submits. On submit we just call update().
-    window.intercomSettings = {
-      api_base:              'https://api-iam.intercom.io',
-      app_id:                'eupcse57',
-      hide_default_launcher: true,
-    };
-    (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/eupcse57';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-
     function getUTMParam(key) {
       return new URLSearchParams(window.location.search).get(key) || 'direct';
     }
@@ -985,25 +976,28 @@
         e.preventDefault();
         var email = form.querySelector('input[type="email"]').value.trim();
         if (!email) return;
+        var hpInput = form.querySelector('input[name="hp"]');
+        var hp = hpInput ? hpInput.value : '';
+        var utmCampaign = getUTMParam('utm_campaign');
 
         track('generate_lead', { currency: 'HKD', value: 0 });
 
-        // ── Step 2: Update the already-booted session with the email ─────────
-        // Intercom is already loaded — update() fires synchronously against the
-        // live session and creates/identifies the contact immediately.
-        window.Intercom('update', {
-          email:        email,
-          lead_source:  'affiliate-lp',
-          utm_source:   getUTMParam('utm_source'),
-          utm_medium:   getUTMParam('utm_medium'),
-          utm_campaign: getUTMParam('utm_campaign') !== 'direct' ? getUTMParam('utm_campaign') : 'freebook',
-          lead_page:    window.location.pathname,
+        fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          keepalive: true,
+          body: JSON.stringify({
+            email:        email,
+            hp:           hp,
+            lead_source:  'affiliate-lp',
+            utm_source:   getUTMParam('utm_source'),
+            utm_medium:   getUTMParam('utm_medium'),
+            utm_campaign: utmCampaign !== 'direct' ? utmCampaign : 'freebook',
+            lead_page:    window.location.pathname,
+          }),
         });
 
-        // ── Step 3: Show success only after a short tick so Intercom's XHR
-        //    has been queued. 300 ms is enough — no redirect happens here so
-        //    we don't need a long delay.
-        setTimeout(showSuccess, 300);
+        showSuccess();
       });
     });
 
