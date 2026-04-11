@@ -951,6 +951,7 @@
   <!-- ── FOOTER ── -->
   <footer>
     <p>© 2026 3ook.com &nbsp;·&nbsp; 可讀・可聽・可擁有 &nbsp;·&nbsp;
+      <a href="#">私隱政策</a> &nbsp;·&nbsp; <a href="#">取消訂閱</a></p>
   </footer>
 
   <!-- Intercom is NOT loaded on page load. It loads only when the user submits
@@ -993,6 +994,7 @@
 
         track('generate_lead', { currency: 'HKD', value: 0 });
         loadIntercom(email);
+        setTimeout(function() { window.Intercom('trackEvent', 'free-book-signup'); }, 1500);
 
         setTimeout(function() {
           if (!document.querySelector('iframe[name^="intercom-"]')) {
