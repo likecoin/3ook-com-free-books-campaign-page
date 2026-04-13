@@ -1,5 +1,5 @@
-// Creates an Intercom lead and fires the trigger event via REST API, which
-// works under Enforced Messenger Security (client-side writes are blocked).
+// Creates an Intercom lead and tags it via REST API, which works under
+// Enforced Messenger Security (client-side writes are blocked).
 export default async (req) => {
   if (req.method !== 'POST') {
     return new Response('method not allowed', { status: 405 });
@@ -48,31 +48,24 @@ export default async (req) => {
     return new Response('upstream_error', { status: 502 });
   }
 
-  // Intercom Events API doesn't resolve leads by email reliably — key off the contact id.
   const contact = await contactRes.json();
   if (!contact?.id) {
     console.error('intercom contact missing id', contact);
     return new Response('upstream_error', { status: 502 });
   }
 
-  const eventRes = await fetch('https://api.intercom.io/events', {
+  const tagRes = await fetch('https://api.intercom.io/tags', {
     method: 'POST',
     headers,
     body: JSON.stringify({
-      event_name: 'freebook_requested',
-      created_at: Math.floor(Date.now() / 1000),
-      id: contact.id,
-      metadata: {
-        utm_source:   body.utm_source,
-        utm_campaign: body.utm_campaign,
-        lead_page:    body.lead_page,
-      },
+      name: 'freebook_requested',
+      users: [{ id: contact.id }],
     }),
   });
 
-  if (!eventRes.ok) {
-    // Lead exists — event drop is recoverable from Intercom admin, don't fail form.
-    console.error('intercom event error', eventRes.status, await eventRes.text());
+  if (!tagRes.ok) {
+    // Contact was created — don't fail the form if tagging trips.
+    console.error('intercom tag error', tagRes.status, await tagRes.text());
   }
 
   return new Response('ok');

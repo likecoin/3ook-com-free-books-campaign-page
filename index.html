@@ -968,10 +968,6 @@
       window.Intercom('showNewMessage', '想領取免費電子書，我的 email：' + email);
     }
 
-    function getUTMParam(key) {
-      return new URLSearchParams(window.location.search).get(key) || 'direct';
-    }
-
     function track(eventName, params) {
       if (typeof window.gtag === 'function') {
         window.gtag('event', eventName, params || {});
@@ -989,7 +985,6 @@
         if (!email) return;
         var hpInput = form.querySelector('input[name="hp"]');
         var hp = hpInput ? hpInput.value : '';
-        var utmCampaign = getUTMParam('utm_campaign');
 
         track('generate_lead', { currency: 'HKD', value: 0 });
 
@@ -1003,13 +998,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           keepalive: true,
-          body: JSON.stringify({
-            email:        email,
-            hp:           hp,
-            utm_source:   getUTMParam('utm_source'),
-            utm_campaign: utmCampaign !== 'direct' ? utmCampaign : 'freebook',
-            lead_page:    window.location.pathname,
-          }),
+          body: JSON.stringify({ email: email, hp: hp }),
         }).then(function(res) {
           if (res.ok) showSuccess();
           else onFailure();
